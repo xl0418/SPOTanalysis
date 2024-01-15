@@ -25,4 +25,6 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 2. Download full genomes from [NCBI](https://www.ncbi.nlm.nih.gov/) using [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/) -- **Script 02**;
 
-3. Annotating genomes given the taxonomy of ASVs. -- **Script 03**;
+3. Annotating genomes. The taxonomy of ASVs is provided. -- **Script 03**;
+
+4. 
