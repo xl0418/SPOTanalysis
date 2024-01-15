@@ -3,7 +3,7 @@
 # Define the download function with one line from the tsv file as the feed-in
 dl_data(){
     info=($1)
-    str1="genomes" #${info[0]} # blast id, e.g. c497da3b39f30aceede6bec3b03cd100
+    str1="SPOTgenomes" #${info[0]} # blast id, e.g. c497da3b39f30aceede6bec3b03cd100
     str2=${info[1]} # genome id, e.g. GB_GCA_905618805.1
     # echo $str1 
     # echo $str2

@@ -18,6 +18,10 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 3. "**03-prokka_SPOT_genomes.sh**" exploits [Prokka](https://github.com/tseemann/prokka) to annotate genomes according to the taxonomy provided for ASVs; 
 
+4. "**04-R_CDS.sh**" substracts the untranslated coding sequences (CDS);
+
+5. "**04-gRodonSPOTGenomes.R**" uses gRodon package and estimate the doubling time for genomes;
+
 
 # Processes
 
@@ -27,4 +31,4 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 3. Annotating genomes. The taxonomy of ASVs is provided. -- **Script 03**;
 
-4. 
+4. Using gRodon to estimate doubling time for genomes. -- **Script 04**;
