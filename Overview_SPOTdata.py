@@ -38,4 +38,26 @@ print("Number of tags in BLAST output but not in domain identity file: ", len(ta
 
 print("Number of tags in domain identity file but not in BLAST output: ", len(tags_in_domain_not_in_blast))
 
+# number of genomes in blast output
+no_genomes_blast = spot_blast.iloc[:,1].nunique()
 
+file_relative_a_FL = 'data/SPOT_FreeLivingProkaroytes_ASV_2005_2018_5depths.csv'
+tag2sample_FL = pd.read_csv(file_relative_a_FL, sep=',')
+
+# number of unique tags in tag2sample
+no_tags_relative_a = tag2sample_FL.index.nunique()
+
+file_relative_a_PA = 'data/SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv'
+tag2sample_PA = pd.read_csv(file_relative_a_PA, sep=',')
+
+# number of unique tags in tag2sample
+no_tags_relative_a_PA = tag2sample_PA.index.nunique()
+
+# tags in tag2sample_PA.index but not in tag2sample_FL.index
+tags_in_PA_not_in_FL = set(tag2sample_PA.index) - set(tag2sample_FL.index)
+
+# tags in domain identity file but not in tag2sample_FL.index
+tags_in_domain_not_in_FL = set(tags_domain) - set(tag2sample_FL.index)
+
+# tags in blast output but not in tag2sample_FL.index
+tags_in_blast_not_in_FL = set(tags_blast) - set(tag2sample_FL.index)

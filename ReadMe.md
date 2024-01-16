@@ -6,6 +6,17 @@
 
 3. The file "**SPOT_Prokaryotic16S_ASV_Domain_identity.csv**" provides taxonomy for each ASV;
 
+# Data details
+
+1. The file "**SPOT_Prokaryotic16S_ASV_dna-sequences.fasta**" contains 70,100 ASVs;
+
+2. The file "**SPOT_Prokaryotic16S_ASV_dna-sequences_BLASToutput.tsv**" contains 30,418 ASVs and 22,399 unique genomes;
+
+3. The file "**SPOT_FreeLivingProkaroytes_ASV_2005_2018_5depths.csv**" contains 72,672 ASVs;
+
+4. The file "**SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv**" contains 72,672 ASVs, the same as the free living prokaryotes ASVs. The difference is the relative abundance of each ASV at each sample; 
+
+5. There are 4,879 ASVs in the blastn output file but not in the "**SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv**" file.
 
 
 # Scripts
@@ -18,7 +29,7 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 3. "**03-prokka_SPOT_genomes.sh**" exploits [Prokka](https://github.com/tseemann/prokka) to annotate genomes according to the taxonomy provided for ASVs; 
 
-4. "**04-R_CDS.sh**" substracts the untranslated coding sequences (CDS);
+4. "**04-R_CDS.sh**" substracts the untranslated coding sequences (CDS). See [gRodon documentation](https://microbialgamut.com/gRodon-vignette) for details;
 
 5. "**04-gRodonSPOTGenomes.R**" uses gRodon package and estimate the doubling time for genomes;
 
