@@ -1,4 +1,4 @@
-# Data
+# Data files
 
 1. The file "**SPOT_Prokaryotic16S_ASV_dna-sequences.fasta**" contains ASV sequences data;
 
@@ -18,6 +18,11 @@
 
 5. There are 4,879 ASVs in the blastn output file but not in the "**SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv**" file.
 
+6. That is to say, there are 25,539 ASVs in the blastn output file and also in the meta data file "**SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv**";
+
+7. These ASVs correspond to 21,391 unique genomes according to the blastn output file;
+
+8. In the estimation file "**SPOT_fullhits_FL.csv**" and "**SPOT_fullhits_PA.csv**", there are in total 22,895 ASVs and 20,642 genomes.
 
 # Scripts
 

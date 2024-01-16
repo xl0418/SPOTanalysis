@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 # read BLAST output
@@ -61,3 +62,36 @@ tags_in_domain_not_in_FL = set(tags_domain) - set(tag2sample_FL.index)
 
 # tags in blast output but not in tag2sample_FL.index
 tags_in_blast_not_in_FL = set(tags_blast) - set(tag2sample_FL.index)
+
+# tags in blast output and also in tag2sample_FL.index
+tags_in_blast_and_FL = set(tags_blast) & set(tag2sample_FL.index)
+
+spot_blast_FL = spot_blast[spot_blast.iloc[:,0].isin(tags_in_blast_and_FL)]
+
+# number of unique tags in spot_blast_FL
+no_tags_blast_FL = spot_blast_FL.iloc[:,0].nunique()
+# number of unique genomes in spot_blast_FL
+no_genomes_blast_FL = spot_blast_FL.iloc[:,1].nunique()
+
+# read SPOT_fullhits_FL.csv
+spot_fullhits_FL = pd.read_csv("data/SPOT_fullhits_FL.csv", sep=',')
+# number of unique tags in spot_fullhits_FL
+no_tags_fullhits_FL = spot_fullhits_FL['tag'].nunique()
+# number of unique genomes in spot_fullhits_FL
+no_genomes_fullhits_FL = spot_fullhits_FL['genomeid'].nunique()
+
+# read SPOT_fullhits_PA.csv
+spot_fullhits_PA = pd.read_csv("data/SPOT_fullhits_PA.csv", sep=',')
+# number of unique tags in spot_fullhits_PA
+no_tags_fullhits_PA = spot_fullhits_PA['tag'].nunique()
+# number of unique genomes in spot_fullhits_PA
+no_genomes_fullhits_PA = spot_fullhits_PA['genomeid'].nunique()
+
+genomes_fullhits_FL = spot_fullhits_FL['genomeid'].unique()
+genomes_fullhits_PA = spot_fullhits_PA['genomeid'].unique()
+
+# number of unique genomes in both spot_fullhits_FL and spot_fullhits_PA
+no_genomes_fullhits_FL_PA = len(np.unique(np.concatenate((genomes_fullhits_FL, genomes_fullhits_PA))))
+
+# number of unique tags in both spot_fullhits_FL and spot_fullhits_PA
+no_tags_fullhits_FL_PA = len(np.unique(np.concatenate((spot_fullhits_FL['tag'].unique(), spot_fullhits_PA['tag'].unique()))))
