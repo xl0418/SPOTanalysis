@@ -12,6 +12,6 @@ module load parallel/20180222
 module load gcc/9.2.0
 module load R/4.2.2
 
-sh 04-R_CDS.sh 16 SPOT_genomeid_full.tsv
+sh 04-R_CDS_SPOT.sh 16 SPOT_opt_genomes_FL.csv
 
 

@@ -38,3 +38,6 @@ missinggenome.txt
 221117-1910.P16N-S.16S.dna-sequences.tax.tsv
 TaxInfo.tsv
 test_tax_add.tsv
+.Rproj.user
+
+test_cds_sh.sh

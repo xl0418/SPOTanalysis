@@ -36,7 +36,9 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 4. "**04-R_CDS.sh**" substracts the untranslated coding sequences (CDS). See [gRodon documentation](https://microbialgamut.com/gRodon-vignette) for details;
 
-5. "**04-gRodonSPOTGenomes.R**" uses gRodon package and estimate the doubling time for genomes;
+5. "**04-gRodonSPOTGenomes.R**" uses gRodon package and estimate the doubling time for genomes on the default temperature (20 &deg;C) for all genomes;
+
+6. "**04-gRodonSPOTGenomes_vT.R**" uses gRodon package and estimate the doubling time for genomes on the optimal temperature provided by the file "**SPOT_opt_genomes_FL.csv**". The optimal temperature is computed by taking the mean of the temperatures for the 1% top abundances of ASVs that are corresponding to the genome;
 
 
 # Processes
@@ -45,6 +47,6 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 
 2. Download full genomes from [NCBI](https://www.ncbi.nlm.nih.gov/) using [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/) -- **Script 02**;
 
-3. Annotating genomes. The taxonomy of ASVs is provided. -- **Script 03**;
+3. Annotating genomes using [prokka](https://github.com/tseemann/prokka). The taxonomy of ASVs is provided. -- **Script 03**;
 
-4. Using gRodon to estimate doubling time for genomes. -- **Script 04**;
+4. Applying gRodon to estimate doubling time for genomes. -- **Script 04**;
