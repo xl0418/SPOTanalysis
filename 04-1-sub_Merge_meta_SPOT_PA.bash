@@ -8,4 +8,4 @@
 #SBATCH -J "GetOPT"   # job name
 #SBATCH --mail-user=liangxu@caltech.edu   # email address
 
-python 06-get_opt_for_genomes.py
+python 04-1-Merge_meta_SPOT_PA.py

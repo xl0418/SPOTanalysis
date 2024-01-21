@@ -1,3 +1,7 @@
+# figure for SPOT project
+<img src="SPOT_pipeline.png" alt="drawing" width="1200"/>
+
+
 # Data files
 
 1. The file "**SPOT_Prokaryotic16S_ASV_dna-sequences.fasta**" contains ASV sequences data;
