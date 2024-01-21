@@ -1,5 +1,5 @@
 # Pipeline for SPOT project
-<img src="SPOT_pipeline.png" alt="drawing" width="1200"/>
+<img src="SPOT_pipeline.png" alt="pipeline" width="1200"/>
 
 
 # Data files

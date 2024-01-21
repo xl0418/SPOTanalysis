@@ -27,7 +27,6 @@ TestResults.xml
 *.tsv
 
 221201_P16N-S.prok-nonphoautototrophic.BLAST-95pcID-vs-GTDB-r207-allproks.tsv
-*.png
 *.zip
 genomeid.tsv
 221117-1910.P16N-S.16S.dna-sequences.tsv
