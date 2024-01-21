@@ -1,4 +1,4 @@
-# figure for SPOT project
+# Pipeline for SPOT project
 <img src="SPOT_pipeline.png" alt="drawing" width="1200"/>
 
 
