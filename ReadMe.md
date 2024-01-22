@@ -28,6 +28,19 @@
 
 8. In the estimation file "**SPOT_fullhits_FL.csv**" and "**SPOT_fullhits_PA.csv**", there are in total 22,895 ASVs and 20,642 genomes.
 
+# Environment requirement
+
+1. [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/);
+
+2. [Prokka](https://github.com/tseemann/prokka);
+
+3. [gRodon](https://microbialgamut.com/gRodon-vignette);
+
+4. [R](https://www.r-project.org/);
+
+5. [python](https://www.python.org/);
+
+
 # Scripts
 
 All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
