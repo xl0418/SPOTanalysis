@@ -54,3 +54,17 @@ All the scripts named after "**sub_XXX**" are to submit jobs to the cluster.
 3. Annotating genomes using [prokka](https://github.com/tseemann/prokka). The taxonomy of ASVs is provided. -- **Script 03**;
 
 4. Applying gRodon to estimate doubling time for genomes. -- **Script 04**;
+
+# Patterns 
+
+## Shannon in time
+
+<img src="SPOT_shannon.png" alt="shannon" width="1200"/>
+
+## Richness in time
+
+<img src="SPOT_richness.png" alt="richness" width="1200"/>
+
+## Mean maximum growth rates in depth
+
+[//]: # (<img src="SPOT_richness.png" alt="richness" width="1200"/>)
