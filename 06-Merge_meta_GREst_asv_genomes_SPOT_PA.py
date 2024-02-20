@@ -5,79 +5,67 @@ import multiprocess as mp
 a_thd = 0
 
 # read the geo meta data
-geo_meta = pd.read_csv('data/SPOT_CTD_Nutrients_BP_5Depths.csv')
-# remove the first two rows
-geo_meta = geo_meta.iloc[2:, :]
+geo_meta = pd.read_csv('data/SPOT_Metadata_Seq_Envi_QC.csv')
+
 
 
 def generate_df(ii):
     # read the geo meta data
-    geo_meta = pd.read_csv('data/SPOT_CTD_Nutrients_BP_5Depths.csv')
-    # remove the first two rows
-    geo_meta = geo_meta.iloc[2:, :]
+    geo_meta = pd.read_csv('data/SPOT_Metadata_Seq_Envi_QC.csv')
+
     # read the tag2genome data
     tag2genome = pd.read_csv('data/SPOT_Prokaryotic16S_ASV_dna-sequences_BLASToutput.tsv', sep='\t', header=None)
 
     # read the tag2sample data relative abundance data
-    file_relative_a = 'data/SPOT_ParticleAssocaitedProkaroytes_ASV_2005_2018_5depths.csv'
+    file_relative_a = 'data/SPOT_Prokaryotic16S_ASV_Table_PA.csv'
     tag2sample = pd.read_csv(file_relative_a, sep=',')
 
     # read the predicted growth rate data
-    pred_d_sT = pd.read_csv('data/SPOT_EstG_genome_sameT.tsv', sep='\t')
-    pred_d_vT = pd.read_csv('data/SPOT_EstG_genome_variableT.tsv', sep='\t')
+    pred_d = pd.read_csv('data/SPOT_GRest.tsv', sep='\t')
 
-    sample1, sample2, sample3 = geo_meta.iloc[ii, 0].split('/')
-    depthbin = geo_meta.iloc[ii, 1]
-    sample = '20' + sample3 + '_' + sample1 + '_' + sample2 + '_' + depthbin + '_' + 'FL'
+    _, sample1, sample2, sample3 = geo_meta.iloc[ii, 0].split('_')
+    year, month, day = sample3.split('.')
+    year = int(year)
+    month = int(month)
 
-    depth = geo_meta['depth'].iloc[ii]
+    sample = str(year) + '_' + str(month) + '_1_' + sample1 + '_' + 'PA'
+
+    depth = geo_meta['Depth.m'].iloc[ii]
     # Lat = geo_meta['Latitude'][ii]
-    temp = geo_meta['CTDTemp'].iloc[ii]
+    temp = geo_meta['SST'].iloc[ii]
     batch_data = pd.DataFrame(columns=['sample',
                                        'depth',
-                                       'temp',
+                                       'temp_SST',
                                        'tag',
                                        'genomeid',
                                        'relative_a',
                                        'd_sT',
-                                       'LowerCI',
-                                       'UpperCI',
-                                       'dCUB',
-                                       'nHE',
-                                       'OGT',
-                                       'd_vT'])
+                                       'd_vT_PA',
+                                       'OGT_PA'])
     # if sample is not in relative abundance data, skip
     if sample in tag2sample.columns:
         present_tags = tag2sample[tag2sample[sample] > a_thd]
-        for pres_tag in present_tags.index:
-            relative_a_tag = present_tags[present_tags.index == pres_tag][sample].values[0]
+        for pres_tag in present_tags.loc[:, 'OTU_ID']:
+            relative_a_tag = present_tags[present_tags.loc[:, 'OTU_ID'] == pres_tag][sample].values[0]
             genomes = tag2genome[tag2genome.iloc[:, 0] == pres_tag].iloc[:, 1]
             if genomes.__len__() > 0:
                 for genome in genomes.values:
-                    matched_genome = pred_d_sT[pred_d_sT['genomeid'] == genome]
+                    matched_genome = pred_d[pred_d['genomeid'] == genome]
                     if matched_genome.__len__() > 0:
-                        pred_g_genome = pred_d_sT[pred_d_sT['genomeid'] == genome]['d'].values[0]
-                        lowerci = pred_d_sT[pred_d_sT['genomeid'] == genome]['LowerCI'].values[0]
-                        upperci = pred_d_sT[pred_d_sT['genomeid'] == genome]['UpperCI'].values[0]
-                        dCUB = pred_d_sT[pred_d_sT['genomeid'] == genome]['dCUB'].values[0]
-                        nHE = pred_d_sT[pred_d_sT['genomeid'] == genome]['nHE'].values[0]
+                        pred_d_genome = pred_d[pred_d['genomeid'] == genome]['d'].values[0]
+                        pred_d_PA_genome = pred_d[pred_d['genomeid'] == genome]['d_PA'].values[0]
+                        OGT_PA = pred_d[pred_d['genomeid'] == genome]['OGT_PA'].values[0]
 
-                        pred_d_genome_vT = pred_d_vT[pred_d_vT['genomeid'] == genome]['d'].values[0]
-                        OGT = pred_d_vT[pred_d_vT['genomeid'] == genome]['OGT'].values[0]
 
                         temp_df = pd.DataFrame({'sample': sample,
                                                 'depth': depth,
-                                                'temp': temp,
+                                                'temp_SST': temp,
                                                 'tag': pres_tag,
                                                 'genomeid': genome,
                                                 'relative_a': relative_a_tag,
-                                                'maxg': pred_g_genome,
-                                                'LowerCI': lowerci,
-                                                'UpperCI': upperci,
-                                                'dCUB': dCUB,
-                                                'nHE': nHE,
-                                                'OGT': OGT,
-                                                'd_vT': pred_d_genome_vT
+                                                'd_sT': pred_d_genome,
+                                                'd_vT_PA': pred_d_PA_genome,
+                                                'OGT_PA': OGT_PA
                                                 }, index=[0])
 
                         batch_data = pd.concat([batch_data, temp_df], ignore_index=True)
@@ -91,4 +79,4 @@ with mp.Pool(processes=(16)) as pool:
 full_data = pd.concat(data, axis=0)
 
 # save the full data
-full_data.to_csv('data/SPOT_allhits_meta_PA.csv', index=False)
+full_data.to_csv('data/SPOT_GRest_meta_PA.csv', index=False)

@@ -1,14 +1,11 @@
 import pandas as pd
 import multiprocessing as mp
+import numpy as np
 
 # read all hits file FL or PA
 all_hits = pd.read_csv("data/SPOT_fullhits_PA.csv", sep=',')
-all_hits = all_hits[all_hits['temp'] != 'No data']
-all_hits = all_hits[all_hits['depth'] != 'No data']
-
-# change Dtype of depth and temp to float
-all_hits['depth'] = all_hits['depth'].astype(int)
-all_hits['temp'] = all_hits['temp'].astype(float)
+# replace NaN with 17, NaN only appears in 5m up to 150m
+all_hits.loc[:,'temp'].fillna(17, inplace=True)
 # combine unique genomes in FL or PA
 unique_genomes = all_hits.loc[:,'genomeid'].unique()
 
@@ -18,11 +15,9 @@ def get_opt_genome(genomeid):
     """
     genomedf = all_hits[all_hits['genomeid']==genomeid]
     if genomedf.__len__() > 0:
-        # get the top 1% of the relative_a
-        genomedf = genomedf.sort_values(by='relative_a', ascending=False)
-        genomedf = genomedf.iloc[:int(genomedf.__len__()/100),:]
         # get the mean of the temp
-        opt = genomedf['temp'].values.astype(float).mean()
+        opt = np.dot(genomedf.loc[:, 'temp'].values, genomedf.loc[:, 'relative_a'].values / genomedf.loc[:,
+                                                                                        'relative_a'].values.sum())
         return pd.DataFrame({'genomeid':genomeid, 'opt':opt}, index=[0])
     else:
         return pd.DataFrame()
