@@ -43,5 +43,7 @@ sns.set(style="white")
 fig, ax = plt.subplots(figsize=(10, 10))
 ax = sns.boxplot(x="depth_cat", y="mean_maxg_vt", data=plot_df)
 plt.show()
+# save
+fig.savefig('figures/SPOT_maxg_vt_depth_FL.png')
 
 plot_df.depth.unique()

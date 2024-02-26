@@ -44,7 +44,7 @@ def f_Interp(xaxis, yaxis, d, orgname, save_name, todepth = 900):
     # convert to date
     xlabel = []
     for eachtick in xticks:
-        d = date(2005, 1, 19) + pd.Timedelta(days=eachtick)
+        d = date(2001, 1, 1) + pd.Timedelta(days=eachtick)
         xlabel.append(d.strftime('%Y-%m-%d'))
     plt.gca().set_xticks(xticks)
     plt.gca().set_xticklabels(xlabel)
@@ -60,44 +60,32 @@ def f_Interp(xaxis, yaxis, d, orgname, save_name, todepth = 900):
 
 
 # read the data
-full_data = pd.read_csv('data/SPOT_FreeLivingProkaroytes_ASV_2005_2018_5depths.csv')
-geo_meta = pd.read_csv('data/SPOT_CTD_Nutrients_BP_5Depths.csv')
-geo_meta = geo_meta.iloc[2:,:]
-geo_meta.insert(geo_meta.shape[1], 'sample', np.nan)
+full_data = pd.read_csv('data/SPOT_Prokaryotic16S_ASV_Table_FL.csv')
+spot_fl = pd.read_csv("data/SPOT_mean_d_meta_FL.csv", sep=',')
 
-for ii in range(geo_meta.shape[0]):
-    sample1, sample2, sample3 = geo_meta.iloc[ii, 0].split('/')
-    depthbin = geo_meta.iloc[ii, 1]
-    sample = '20' + sample3 + '_' + sample1 + '_' + sample2 + '_' + depthbin + '_' + 'FL'
-    # add sample column
-    geo_meta['sample'].iloc[ii] = sample
-    if sample not in full_data.columns:
-        print(sample)
+print("The number of samples is: ", spot_fl['sample'].unique().shape)
+print("The number of ASVs is: ", spot_fl['tag'].unique().shape)
 
-print("The number of samples is: ", full_data.shape[1]-1)
-print("The number of ASVs is: ", full_data.index.unique().shape)
+sample_richness_shannon = pd.DataFrame(columns=['sample', 'richness', 'shannon', 'Depth', 'Date', 'Days'])
 
-sample_richness_shannon = pd.DataFrame(columns=['sample', 'richness', 'shannon', 'temp', 'Depth', 'Date', 'Days'])
-
-samples_in_full_data = full_data.columns[:-1]
+samples_in_full_data = full_data.columns[1:]
 
 # read est for asv
-est_asv = pd.read_csv('data/SPOT_1hits_FL.csv', sep=',')
+est_asv = pd.read_csv('data/SPOT_mean_d_meta_FL.csv', sep=',')
 
 for sample in samples_in_full_data:
     date1, date2, date3, depth, type = sample.split('_')
     date_sample = date1 + '_' + date2 + '_' + date3
 
-    d0 = date(2005, 1, 19)
+    d0 = date(2001, 1, 1)
     d1 = date(int(date1), int(date2), int(date3))
     delta = d1 - d0
     # print(delta.days)
-    # replace DCM with 100m
-    if depth == 'DCM':
-        depth = '100m'
+
     # remove the 'm' in depth and convert to int
-    depth = depth.replace('m', '')
-    depth = int(depth)
+    depth = est_asv[est_asv['sample']==sample]['depth'].values[0]
+    if np.isnan(depth):
+        depth = 100
 
     sample_data = full_data[sample]
     relative_abund_asv = sample_data.values / sum(sample_data.values)
@@ -105,17 +93,14 @@ for sample in samples_in_full_data:
 
     # calculate the weighted mean d
     asv_d_df = est_asv[est_asv['sample']==sample]
-    abund_weighted_d = np.dot(asv_d_df['maxg'].values, asv_d_df['relative_a'].values / sum(asv_d_df['relative_a'].values))
 
     sample_richness_shannon = pd.concat([sample_richness_shannon,
                                          pd.DataFrame({'sample':sample,
                                                        'richness':sum(sample_data > 0),
                                                        'shannon':-np.sum(relative_abund_asv *np.log(relative_abund_asv)),
-                                                       'temp':geo_meta[geo_meta['sample'] == sample]['CTDTemp'].values,
                                                        'Depth':depth,
                                                        'Date': date_sample,
-                                                       'Days': delta.days,
-                                                       'mean_maxg': np.log(2) / abund_weighted_d})], ignore_index=True)
+                                                       'Days': delta.days}, index=[0])], ignore_index=True)
 
 # plot the heatmap of the richness and shannon index in depth with the Date on x axis
 plt.figure(figsize=(10, 6))
@@ -136,26 +121,20 @@ cbar = plt.colorbar(
 )
 
 
-
 # interpolation
 
 f_Interp(sample_richness_shannon['Days'].values,
          sample_richness_shannon['Depth'].values,
          sample_richness_shannon['richness'].values,
          'Richness',
-         'SPOT_richness.png')
+         'figures/SPOT_richness.png')
 
 f_Interp(sample_richness_shannon['Days'].values,
          sample_richness_shannon['Depth'].values,
          sample_richness_shannon['shannon'].values,
          'Shannon',
-         'SPOT_shannon.png')
+         'figures/SPOT_shannon.png')
 
-f_Interp(sample_richness_shannon['Days'].values,
-         sample_richness_shannon['Depth'].values,
-         sample_richness_shannon['mean_maxg'].values,
-         'Shannon',
-         'SPOT_meanmaxg.png')
 
 
 
