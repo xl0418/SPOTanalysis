@@ -8,11 +8,11 @@
 
 Both have two estimates of the doubling time, one is the default temperature (20 &deg;C) and the other is the optimal temperature.
 
-<img src="figures/SPOT_maxg_vt_depth_FL.png" alt="maxgFL" width="1200"/>
+<img src="SPOT_maxg_vt_depth_FL.png" alt="maxgFL" width="1200"/>
 
-<img src="figures/SPOT_richness.png" alt="Richness" width="1200"/>
+<img src="SPOT_richness.png" alt="Richness" width="1200"/>
 
-<img src="figures/SPOT_shannon.png" alt="Shannon" width="1200"/>
+<img src="SPOT_shannon.png" alt="Shannon" width="1200"/>
 
 # Origional data files
 
